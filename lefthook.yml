@@ -1,0 +1,14 @@
+pre-commit:
+  commands:
+    import-sorter:
+      glob: "*.{dart}"
+      run: |
+        fvm flutter pub run import_path_converter:main {staged_files}
+        fvm flutter pub run import_sorter:main {staged_files}
+        git add {staged_files}
+    check-formatting:
+      run: dart format lib test
+    # check-analysis:
+    #   run: |
+    #     fvm flutter analyze lib test
+    #      dart analyze lib test
