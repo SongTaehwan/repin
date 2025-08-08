@@ -93,7 +93,8 @@ class ApiClient implements IApiClient {
   // 재시도 인터셉터 생성
   InterceptorsWrapper _createRetryInterceptor() {
     onRequest(RequestOptions request, RequestInterceptorHandler handler) async {
-      request.headers['Accept'] = 'application/json';
+      request.headers['Accept'] = 'application/vnd.github+json';
+      request.headers['X-GitHub-Api-Version'] = '2022-11-28';
       request.headers['Connection'] = 'Keep-Alive';
       request.headers['Keep-Alive'] = 'timeout=5, max=1000';
       request.headers['X-Request-Retry'] =
