@@ -119,3 +119,7 @@ import_sorter:
     - \/lib\/app\/config\/firebase
     - \/lib\/app\/core\/inject\/injector.config.dart
     - \/lib\/app\/generated/*
+
+get_cli:
+  sub_folder: false
+  separator: "."
