@@ -5,6 +5,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+// 🌎 Project imports:
+import 'package:repin/app/core/utils/helpers/injection.dart';
+
 enum ErrorSource {
   // Flutter 프레임워크 레벨 에러
   framework,
@@ -59,6 +62,8 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+
+    await configureDependencies();
 
     // TODO: 의존성, SDK 등 초기화 작업 추가
     runApp(await builder());
