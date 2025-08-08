@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
+import 'package:repin/app/core/debug/route_stack_observer.dart';
 import 'package:repin/app/routes/app_pages.dart';
-import 'package:repin/app/shared/debug/route_stack_observer.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
