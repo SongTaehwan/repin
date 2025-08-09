@@ -3,13 +3,13 @@ import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
 // 🌎 Project imports:
-import 'package:repin/app/data/model/search_repositories.dart';
+import 'package:repin/app/data/provider/dto/search_repositories.dto.dart';
 
-part 'api.provider.g.dart';
+part 'github.provider.g.dart';
 
 @RestApi(baseUrl: 'https://api.github.com/')
-abstract class ApiProvider {
-  factory ApiProvider(Dio dio) = _ApiProvider;
+abstract class GithubProvider {
+  factory GithubProvider(Dio dio) = _GithubProvider;
 
   @GET('/search/repositories')
   Future<SearchRepositories> searchRepositories(@Query("q") String query);

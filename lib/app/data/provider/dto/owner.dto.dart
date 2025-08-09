@@ -4,8 +4,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 // 🌎 Project imports:
 import 'package:repin/app/core/utils/helpers/enum_values.dart';
 
-part 'owner.freezed.dart';
-part 'owner.g.dart';
+part 'owner.dto.freezed.dart';
+part 'owner.dto.g.dart';
 
 @freezed
 abstract class Owner with _$Owner {

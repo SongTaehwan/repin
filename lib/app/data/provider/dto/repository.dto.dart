@@ -3,11 +3,11 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 // 🌎 Project imports:
 import 'package:repin/app/core/utils/helpers/enum_values.dart';
-import 'package:repin/app/data/model/license.dart';
-import 'package:repin/app/data/model/owner.dart';
+import 'package:repin/app/data/provider/dto/license.dto.dart';
+import 'package:repin/app/data/provider/dto/owner.dto.dart';
 
-part 'repository.freezed.dart';
-part 'repository.g.dart';
+part 'repository.dto.freezed.dart';
+part 'repository.dto.g.dart';
 
 @freezed
 abstract class Repository with _$Repository {

@@ -1,8 +1,8 @@
 // 📦 Package imports:
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'license.freezed.dart';
-part 'license.g.dart';
+part 'license.dto.freezed.dart';
+part 'license.dto.g.dart';
 
 @freezed
 abstract class License with _$License {

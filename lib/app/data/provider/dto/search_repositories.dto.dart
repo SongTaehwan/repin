@@ -2,10 +2,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 // 🌎 Project imports:
-import 'package:repin/app/data/model/repository.dart';
+import 'package:repin/app/data/provider/dto/repository.dto.dart';
 
-part 'search_repositories.freezed.dart';
-part 'search_repositories.g.dart';
+part 'search_repositories.dto.freezed.dart';
+part 'search_repositories.dto.g.dart';
 
 @freezed
 abstract class SearchRepositories with _$SearchRepositories {
