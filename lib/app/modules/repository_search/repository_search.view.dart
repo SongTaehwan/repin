@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
+import 'package:repin/app/data/model/repository.model.dart';
 import 'package:repin/app/modules/repository_search/repository_search.controller.dart';
 
 class RepositorySearchView extends GetView<RepositorySearchController> {
@@ -116,7 +117,7 @@ class RepositorySearchView extends GetView<RepositorySearchController> {
   }
 
   /// 저장소 아이템 위젯
-  Widget _buildRepositoryItem(repository) {
+  Widget _buildRepositoryItem(Repository repository) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
@@ -139,7 +140,7 @@ class RepositorySearchView extends GetView<RepositorySearchController> {
             children: [
               Expanded(
                 child: Text(
-                  repository.fullName,
+                  repository.name,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -175,7 +176,8 @@ class RepositorySearchView extends GetView<RepositorySearchController> {
           Row(
             children: [
               // 언어
-              if (repository.language != null && repository.language.isNotEmpty)
+              if (repository.language != null &&
+                  repository.language!.isNotEmpty)
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 8,
@@ -186,7 +188,7 @@ class RepositorySearchView extends GetView<RepositorySearchController> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(
-                    repository.language,
+                    repository.language!,
                     style: TextStyle(
                       fontSize: 12,
                       color: Colors.blue[700],

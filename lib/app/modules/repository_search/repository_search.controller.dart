@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import 'package:repin/app/data/provider/dto/repository.dto.dart';
+import 'package:repin/app/data/model/repository.model.dart';
 import 'package:repin/app/data/services/repository_search.service.interface.dart';
 
 class RepositorySearchController extends GetxController {
@@ -55,7 +55,7 @@ class RepositorySearchController extends GetxController {
     isLoading.value = true;
     hasSearched.value = true;
 
-    final result = await _repositoryService.searchRepositories(query);
+    final result = await _repositoryService.loadFirst(query);
 
     result.fold(
       (failure) {
@@ -66,9 +66,10 @@ class RepositorySearchController extends GetxController {
         );
         repositories.clear();
       },
-      (repositoriesList) {
-        repositories.value = repositoriesList;
-        if (repositoriesList.isEmpty) {
+      (repositoriesList) async {
+        final (repositories, totalCount) = await repositoriesList;
+        this.repositories.value = repositories;
+        if (repositories.isEmpty) {
           Get.snackbar(
             '검색 결과',
             '검색 결과가 없습니다.',
