@@ -14,5 +14,11 @@ abstract class GithubProvider implements GithubProviderInterface {
 
   @override
   @GET('/search/repositories')
-  Future<SearchRepositories> searchRepositories(@Query("q") String query);
+  Future<SearchRepositories> searchRepositories(
+    @Query("q") String query, {
+    @Query("sort") String sort = "stars",
+    @Query("order") String order = "desc",
+    @Query("per_page") int perPage = 10,
+    @Query("page") int page = 1,
+  });
 }
