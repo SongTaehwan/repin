@@ -1,9 +1,7 @@
-// 🐦 Flutter imports:
-import 'package:flutter/material.dart';
-
 // 🌎 Project imports:
 import 'package:repin/app/app.dart';
+import 'package:repin/bootstrap.dart';
 
 void main() {
-  runApp(App());
+  bootstrap(App.new);
 }
