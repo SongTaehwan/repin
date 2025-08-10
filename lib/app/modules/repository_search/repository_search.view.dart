@@ -20,6 +20,8 @@ class RepositorySearchView extends GetView<RepositorySearchController> {
           children: [
             // 검색바
             _buildSearchBar(),
+            // 디바운스 대기 표시 텍스트
+            _buildDebounceIndicator(),
             // 리스트 영역
             Expanded(child: _buildRepositoryList()),
           ],
@@ -53,7 +55,7 @@ class RepositorySearchView extends GetView<RepositorySearchController> {
               controller: controller.searchController,
               onSubmitted: controller.onSearchSubmitted,
               decoration: InputDecoration(
-                hintText: '저장소를 검색하세요...',
+                hintText: '검색할 저장소 이름을 입력하세요',
                 hintStyle: TextStyle(color: Colors.grey[400], fontSize: 16),
                 border: InputBorder.none,
                 contentPadding: const EdgeInsets.symmetric(vertical: 8),
@@ -63,27 +65,45 @@ class RepositorySearchView extends GetView<RepositorySearchController> {
           ),
           // X 버튼
           Obx(() {
-            return controller.searchText.isNotEmpty
-                ? GestureDetector(
-                    onTap: controller.clearSearch,
-                    child: Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        Icons.close,
-                        color: Colors.grey[600],
-                        size: 18,
-                      ),
-                    ),
-                  )
-                : const SizedBox.shrink();
+            if (controller.searchText.isEmpty) {
+              return const SizedBox.shrink();
+            }
+
+            return GestureDetector(
+              onTap: controller.clearSearch,
+              child: Container(
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(Icons.close, color: Colors.grey[600], size: 18),
+              ),
+            );
           }),
         ],
       ),
     );
+  }
+
+  /// 디바운스 대기 상태를 표시하는 텍스트 위젯
+  Widget _buildDebounceIndicator() {
+    return Obx(() {
+      if (!controller.showDebounceIndicator) {
+        return const SizedBox.shrink();
+      }
+
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            '검색 중...',
+            style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+          ),
+        ),
+      );
+    });
   }
 
   /// 저장소 리스트 위젯
