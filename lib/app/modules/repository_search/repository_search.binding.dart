@@ -2,9 +2,7 @@
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import 'package:repin/app/core/utils/api/api_client.interface.dart';
 import 'package:repin/app/core/utils/helpers/injection.dart';
-import 'package:repin/app/data/provider/github.provider.dart';
 import 'package:repin/app/data/provider/github.provider.interface.dart';
 import 'package:repin/app/data/repository/code_repo.repository.dart';
 import 'package:repin/app/data/repository/code_repo.repository.interface.dart';
