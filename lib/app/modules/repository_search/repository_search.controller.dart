@@ -7,11 +7,13 @@ import 'package:get/get.dart';
 // 🌎 Project imports:
 import 'package:repin/app/core/constant/strings.dart';
 import 'package:repin/app/data/model/repository.model.dart';
+import 'package:repin/app/data/services/repository_bookmark.service.interface.dart';
 import 'package:repin/app/data/services/repository_search.service.interface.dart';
 
 class RepositorySearchController extends GetxController {
   /// 의존성
-  final RepositoryServiceInterface _service;
+  final RepositoryServiceInterface _repositoryService;
+  final RepositoryBookmarkServiceInterface _bookmarkService;
 
   /// 인스턴스
   final TextEditingController _searchController = TextEditingController();
@@ -29,7 +31,7 @@ class RepositorySearchController extends GetxController {
   DateTime? _lastLoadNextAt; // 마지막 다음 페이지 로드 시각
 
   /// 생성자
-  RepositorySearchController(this._service);
+  RepositorySearchController(this._repositoryService, this._bookmarkService);
 
   /// Getter
   TextEditingController get searchController => _searchController;
@@ -80,6 +82,46 @@ class RepositorySearchController extends GetxController {
     _lastLoadNextAt = null; // 스로틀 상태 초기화
   }
 
+  /// 북마크 여부 조회
+  Future<bool> isBookmarked(int repositoryId) async {
+    return _bookmarkService.isBookmarked(repositoryId);
+  }
+
+  /// 북마크 토글
+  Future<void> toggleBookmark(Repository repository) async {
+    final bookmarked = await _bookmarkService.isBookmarked(repository.id);
+    if (bookmarked) {
+      final result = await _bookmarkService.removeBookmark(repository.id);
+      result.fold(
+        (failure) => Get.snackbar(
+          '북마크 해제 실패',
+          failure.toString(),
+          snackPosition: SnackPosition.BOTTOM,
+        ),
+        (_) => Get.snackbar(
+          '북마크 해제',
+          '해당 저장소가 북마크에서 제거되었습니다.',
+          snackPosition: SnackPosition.BOTTOM,
+        ),
+      );
+    } else {
+      final result = await _bookmarkService.addBookmark(repository);
+      result.fold(
+        (failure) => Get.snackbar(
+          '북마크 실패',
+          failure.toString(),
+          snackPosition: SnackPosition.BOTTOM,
+        ),
+        (_) => Get.snackbar(
+          '북마크 완료',
+          '해당 저장소가 북마크에 추가되었습니다.',
+          snackPosition: SnackPosition.BOTTOM,
+        ),
+      );
+    }
+    update();
+  }
+
   /// 저장소 검색
   /// GitHub Repository 의 이름은 1글자 이상이므로 빈 문자열 검색은 허용하지 않는다.
   void _searchRepositories(String query) async {
@@ -94,7 +136,7 @@ class RepositorySearchController extends GetxController {
     isLoading.value = true;
     hasSearched.value = true;
 
-    final result = await _service.loadFirst(query);
+    final result = await _repositoryService.loadFirst(query);
 
     result.fold(
       (failure) {
@@ -108,7 +150,7 @@ class RepositorySearchController extends GetxController {
       (repositoriesList) {
         final (repositories, _) = repositoriesList;
         this.repositories.value = repositories;
-        hasMore.value = _service.hasMore;
+        hasMore.value = _repositoryService.hasMore;
 
         if (repositories.isEmpty) {
           Get.snackbar(
@@ -139,7 +181,7 @@ class RepositorySearchController extends GetxController {
     _lastLoadNextAt = DateTime.now();
     isLoadingMore.value = true;
 
-    final result = await _service.loadNext(query);
+    final result = await _repositoryService.loadNext(query);
 
     result.fold(
       (failure) {
@@ -152,7 +194,7 @@ class RepositorySearchController extends GetxController {
       (repositoriesList) {
         final (nextItems, _) = repositoriesList;
         repositories.addAll(nextItems);
-        hasMore.value = _service.hasMore;
+        hasMore.value = _repositoryService.hasMore;
       },
     );
     isLoadingMore.value = false;
@@ -208,7 +250,7 @@ class RepositorySearchController extends GetxController {
     isLoadingMore.value = false;
     _lastLoadNextAt = null;
 
-    final result = await _service.loadFirst(query);
+    final result = await _repositoryService.loadFirst(query);
 
     result.fold(
       (failure) {
@@ -221,7 +263,7 @@ class RepositorySearchController extends GetxController {
       (repositoriesList) {
         final (items, _) = repositoriesList;
         repositories.value = items;
-        hasMore.value = _service.hasMore;
+        hasMore.value = _repositoryService.hasMore;
       },
     );
   }

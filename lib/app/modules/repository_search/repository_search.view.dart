@@ -196,6 +196,30 @@ class RepositorySearchView extends GetView<RepositorySearchController> {
                   ),
                 ),
               ),
+              // 북마크 버튼
+              GetBuilder<RepositorySearchController>(
+                id: 'bookmark_${repository.id}',
+                builder: (_) {
+                  return FutureBuilder<bool>(
+                    future: controller.isBookmarked(repository.id),
+                    builder: (context, snapshot) {
+                      final isBookmarked = snapshot.data ?? false;
+                      return IconButton(
+                        icon: Icon(
+                          isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                          color: isBookmarked
+                              ? Colors.blueAccent
+                              : Colors.grey[500],
+                        ),
+                        onPressed: () async {
+                          await controller.toggleBookmark(repository);
+                          controller.update(['bookmark_${repository.id}']);
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
               // 스타 수
               Row(
                 children: [

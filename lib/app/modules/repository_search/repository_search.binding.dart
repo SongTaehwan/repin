@@ -8,6 +8,8 @@ import 'package:repin/app/data/provider/github.provider.dart';
 import 'package:repin/app/data/provider/github.provider.interface.dart';
 import 'package:repin/app/data/repository/code_repo.repository.dart';
 import 'package:repin/app/data/repository/code_repo.repository.interface.dart';
+import 'package:repin/app/data/services/repository_bookmark.service.dart';
+import 'package:repin/app/data/services/repository_bookmark.service.interface.dart';
 import 'package:repin/app/data/services/repository_search.service.dart';
 import 'package:repin/app/data/services/repository_search.service.interface.dart';
 import 'package:repin/app/modules/repository_search/repository_search.controller.dart';
@@ -29,9 +31,17 @@ class RepositorySearchBinding extends Bindings {
       () => RepositorySearchService(Get.find<CodeRepoRepositoryInterface>()),
     );
 
+    // Bookmark Service
+    Get.lazyPut<RepositoryBookmarkServiceInterface>(
+      () => RepositoryBookmarkService(),
+    );
+
     // Controller
     Get.lazyPut<RepositorySearchController>(
-      () => RepositorySearchController(Get.find<RepositoryServiceInterface>()),
+      () => RepositorySearchController(
+        Get.find<RepositoryServiceInterface>(),
+        Get.find<RepositoryBookmarkServiceInterface>(),
+      ),
     );
   }
 }
