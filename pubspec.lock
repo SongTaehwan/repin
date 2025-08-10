@@ -332,7 +332,7 @@ packages:
     source: hosted
     version: "2.2.3"
   hive_ce:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: hive_ce
       sha256: "708bb39050998707c5d422752159f91944d3c81ab42d80e1bd0ee37d8e130658"
