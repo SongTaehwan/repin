@@ -28,14 +28,14 @@ class RepositorySearchController extends GetxController {
   /// 스로틀 설정
   DateTime? _lastLoadNextAt; // 마지막 다음 페이지 로드 시각
 
-  /// 검색 대기(pending) 상태 여부
-  bool get isSearchPending => isDebouncing.value && !isLoading.value;
-
   /// 생성자
   RepositorySearchController(this._service);
 
   /// Getter
   TextEditingController get searchController => _searchController;
+
+  /// 검색 대기(pending) 상태 여부
+  bool get isSearchPending => isDebouncing.value && !isLoading.value;
 
   @override
   void onInit() {
@@ -88,8 +88,8 @@ class RepositorySearchController extends GetxController {
     _lastLoadNextAt = null; // 새로운 검색 시작 시 스로틀 상태 초기화
 
     if (query.trim().isEmpty) {
-      repositories.clear();
-      hasSearched.value = false;
+      // repositories.clear();
+      // hasSearched.value = false;
       return;
     }
 
@@ -108,7 +108,7 @@ class RepositorySearchController extends GetxController {
         repositories.clear();
       },
       (repositoriesList) {
-        final (repositories, totalCount) = repositoriesList;
+        final (repositories, _) = repositoriesList;
         this.repositories.value = repositories;
         hasMore.value = _service.hasMore;
 
@@ -129,17 +129,20 @@ class RepositorySearchController extends GetxController {
   Future<void> loadNextPage() async {
     // 입력된 검색어가 없거나, 이미 로딩 중이거나, 더 이상 데이터가 없다면 종료
     final query = searchText.value.trim();
-    if (query.isEmpty || isLoadingMore.value || !hasMore.value) return;
+    if (query.isEmpty || isLoadingMore.value || !hasMore.value) {
+      return;
+    }
 
-    // 스로틀: 마지막 호출로부터 최소 간격이 지나지 않았다면 무시
+    // 스로틀: 마지막 호출로부터 최소 시간이 지나지 않았다면 무시
     if (!_canLoadNextNow()) {
       return;
     }
 
     _lastLoadNextAt = DateTime.now();
-
     isLoadingMore.value = true;
+
     final result = await _service.loadNext(query);
+
     result.fold(
       (failure) {
         Get.snackbar(
@@ -157,13 +160,35 @@ class RepositorySearchController extends GetxController {
     isLoadingMore.value = false;
   }
 
+  /// 스크롤 위치 입력을 받아 다음 페이지 로드 여부를 판단하고 즉시 로드
+  /// - 뷰는 UI 타입을 넘기지 않고 현재 위치 값만 전달한다
+  void onScrollPosition({
+    required double pixels,
+    required double maxScrollExtent,
+  }) {
+    // 하단 근접 여부 판단
+    final nearBottom =
+        pixels >= maxScrollExtent - INFINITE_SCROLL_TRIGGER_OFFSET_PX;
+
+    final canLoadNext = nearBottom && !isLoadingMore.value && hasMore.value;
+
+    if (!canLoadNext) {
+      return;
+    }
+
+    // 조건 충족 시 다음 페이지 로드
+    loadNextPage();
+  }
+
   /// 다음 페이지 로드 가능 여부 판단 (스로틀 전용)
   bool _canLoadNextNow() {
-    if (_lastLoadNextAt == null) {
+    final lastLoadNextAt = _lastLoadNextAt;
+
+    if (lastLoadNextAt == null) {
       return true;
     }
 
-    final elapsed = DateTime.now().difference(_lastLoadNextAt!).inMilliseconds;
+    final elapsed = DateTime.now().difference(lastLoadNextAt).inMilliseconds;
     return elapsed >= LOAD_NEXT_THROTTLE_MS;
   }
 

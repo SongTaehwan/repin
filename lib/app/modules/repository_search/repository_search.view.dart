@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
-import 'package:repin/app/core/constant/strings.dart';
 import 'package:repin/app/data/model/repository.model.dart';
 import 'package:repin/app/modules/repository_search/repository_search.controller.dart';
 
@@ -128,14 +127,10 @@ class RepositorySearchView extends GetView<RepositorySearchController> {
       // 검색 결과 리스트
       return NotificationListener<ScrollNotification>(
         onNotification: (notification) {
-          if (notification.metrics.pixels >=
-                  notification.metrics.maxScrollExtent -
-                      INFINITE_SCROLL_TRIGGER_OFFSET_PX &&
-              controller.hasMore.value &&
-              !controller.isLoadingMore.value) {
-            controller.loadNextPage();
-          }
-
+          controller.onScrollPosition(
+            pixels: notification.metrics.pixels,
+            maxScrollExtent: notification.metrics.maxScrollExtent,
+          );
           return false;
         },
         child: ListView.builder(
