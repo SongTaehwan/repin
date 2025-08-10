@@ -1,3 +1,6 @@
+// 🎯 Dart imports:
+import 'dart:convert';
+
 // 📦 Package imports:
 import 'package:home_widget/home_widget.dart';
 
@@ -15,11 +18,12 @@ class WidgetSync {
     await HomeWidget.setAppGroupId(appGroupId);
 
     if (repo == null) {
-      await HomeWidget.saveWidgetData<String>('emoji', 'No bookmark');
-      // await HomeWidget.saveWidgetData<int>('count', 0);
+      await HomeWidget.saveWidgetData<String>('latest_repo', jsonEncode(null));
     } else {
-      await HomeWidget.saveWidgetData<String>('emoji', repo.name);
-      // await HomeWidget.saveWidgetData<int>('count', repo.stargazersCount);
+      await HomeWidget.saveWidgetData<String>(
+        'latest_repo',
+        jsonEncode(repo.toJson()),
+      );
     }
 
     await HomeWidget.updateWidget(iOSName: iOSWidgetKind);
