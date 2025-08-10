@@ -14,7 +14,7 @@ class RepositorySearchView extends GetView<RepositorySearchController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
@@ -31,12 +31,12 @@ class RepositorySearchView extends GetView<RepositorySearchController> {
   /// 검색바 위젯
   Widget _buildSearchBar() {
     return Container(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -126,7 +126,7 @@ class RepositorySearchView extends GetView<RepositorySearchController> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -163,8 +163,7 @@ class RepositorySearchView extends GetView<RepositorySearchController> {
           ),
           const SizedBox(height: 8),
           // 설명
-          if (repository.description != null &&
-              repository.description.isNotEmpty)
+          if (repository.description.isNotEmpty)
             Text(
               repository.description,
               style: TextStyle(fontSize: 14, color: Colors.grey[700]),
