@@ -3,34 +3,21 @@ import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import 'package:repin/app/core/utils/helpers/injection.dart';
-import 'package:repin/app/data/provider/github.provider.interface.dart';
-import 'package:repin/app/data/repository/code_repo.repository.dart';
-import 'package:repin/app/data/repository/code_repo.repository.interface.dart';
-import 'package:repin/app/data/services/repository_bookmark.service.dart';
 import 'package:repin/app/data/services/repository_bookmark.service.interface.dart';
-import 'package:repin/app/data/services/repository_search.service.dart';
 import 'package:repin/app/data/services/repository_search.service.interface.dart';
 import 'package:repin/app/modules/repository_search/repository_search.controller.dart';
 
 class RepositorySearchBinding extends Bindings {
   @override
   void dependencies() {
-    // Provider
-    final provider = getIt<GithubProviderInterface>();
-
-    // Repository
-    Get.lazyPut<CodeRepoRepositoryInterface>(
-      () => CodeRepoRepository(provider),
+    // Service 객체는 get_it 으로 생성된 싱글톤 객체를 사용
+    // 필요에 따라 직접 생성하여 사용할 수 있음
+    Get.lazyPut<RepositorySearchServiceInterface>(
+      () => getIt<RepositorySearchServiceInterface>(),
     );
 
-    // Service
-    Get.lazyPut<RepositoryServiceInterface>(
-      () => RepositorySearchService(Get.find<CodeRepoRepositoryInterface>()),
-    );
-
-    // Bookmark Service
     Get.lazyPut<RepositoryBookmarkServiceInterface>(
-      () => RepositoryBookmarkService(),
+      () => getIt<RepositoryBookmarkServiceInterface>(),
     );
 
     // Controller
