@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
+import 'package:repin/app/core/utils/extensions/int.dart';
 import 'package:repin/app/data/model/repository.model.dart';
 import 'package:repin/app/modules/repository_search/repository_search.controller.dart';
 
@@ -197,10 +198,35 @@ class RepositorySearchView extends GetView<RepositorySearchController> {
                   Icon(Icons.star, size: 16, color: Colors.amber[600]),
                   const SizedBox(width: 4),
                   Text(
-                    repository.stargazersCount.toString(),
+                    repository.stargazersCount.formatCompact("en_US"),
                     style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                   ),
                 ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 2),
+          Row(
+            children: [
+              if (repository.ownerProfileUrl != null)
+                // add border radius
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.network(
+                    repository.ownerProfileUrl!,
+                    width: 20,
+                    height: 20,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              const SizedBox(width: 4),
+              Text(
+                repository.ownerName,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey[600],
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ],
           ),
@@ -245,7 +271,21 @@ class RepositorySearchView extends GetView<RepositorySearchController> {
                   Icon(Icons.call_split, size: 14, color: Colors.grey[500]),
                   const SizedBox(width: 4),
                   Text(
-                    repository.forksCount.toString(),
+                    repository.forksCount.formatCompact("en_US"),
+                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                  ),
+                  const SizedBox(width: 4),
+                  Icon(Icons.remove_red_eye, size: 14, color: Colors.grey[500]),
+                  const SizedBox(width: 4),
+                  Text(
+                    repository.watchersCount.formatCompact("en_US"),
+                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                  ),
+                  const SizedBox(width: 4),
+                  Icon(Icons.bug_report, size: 14, color: Colors.grey[500]),
+                  const SizedBox(width: 4),
+                  Text(
+                    repository.openIssuesCount.formatCompact("en_US"),
                     style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                   ),
                 ],

@@ -34,7 +34,7 @@ abstract class Repository with _$Repository {
   factory Repository.fromDto(dto.Repository dto) {
     return Repository(
       id: dto.id,
-      name: dto.name,
+      name: dto.fullName,
       ownerName: dto.owner?.login ?? "deleted user",
       ownerId: dto.owner?.id ?? -1,
       ownerProfileUrl: dto.owner?.avatarUrl,
