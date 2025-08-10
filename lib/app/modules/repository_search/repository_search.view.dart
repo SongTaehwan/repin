@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // 🌎 Project imports:
+import 'package:repin/app/core/constant/strings.dart';
 import 'package:repin/app/data/model/repository.model.dart';
 import 'package:repin/app/modules/repository_search/repository_search.controller.dart';
 
@@ -89,7 +90,7 @@ class RepositorySearchView extends GetView<RepositorySearchController> {
   /// 디바운스 대기 상태를 표시하는 텍스트 위젯
   Widget _buildDebounceIndicator() {
     return Obx(() {
-      if (!controller.showDebounceIndicator) {
+      if (!controller.isSearchPending) {
         return const SizedBox.shrink();
       }
 
@@ -125,13 +126,40 @@ class RepositorySearchView extends GetView<RepositorySearchController> {
       }
 
       // 검색 결과 리스트
-      return ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: controller.repositories.length,
-        itemBuilder: (context, index) {
-          final repository = controller.repositories[index];
-          return _buildRepositoryItem(repository);
+      return NotificationListener<ScrollNotification>(
+        onNotification: (notification) {
+          if (notification.metrics.pixels >=
+                  notification.metrics.maxScrollExtent -
+                      INFINITE_SCROLL_TRIGGER_OFFSET_PX &&
+              controller.hasMore.value &&
+              !controller.isLoadingMore.value) {
+            controller.loadNextPage();
+          }
+
+          return false;
         },
+        child: ListView.builder(
+          padding: const EdgeInsets.all(16),
+          itemCount: controller.repositories.length + 1,
+          itemBuilder: (context, index) {
+            // 하단 로딩 인디케이터 또는 빈 공간
+            if (index == controller.repositories.length) {
+              return Obx(() {
+                if (!controller.isLoadingMore.value) {
+                  return const SizedBox(height: 16);
+                }
+
+                return const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              });
+            }
+
+            final repository = controller.repositories[index];
+            return _buildRepositoryItem(repository);
+          },
+        ),
       );
     });
   }
