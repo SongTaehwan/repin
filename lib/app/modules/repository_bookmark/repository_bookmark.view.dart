@@ -17,47 +17,55 @@ class RepositoryBookmarkView extends GetView<RepositoryBookmarkController> {
       canPop: false,
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: const Text('북마크'),
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.white,
-          actions: [
-            Obx(
-              () => Padding(
-                padding: const EdgeInsets.only(right: 16),
-                child: Center(
-                  child: Text(
-                    '총 ${controller.bookmarks.length}개',
-                    style: const TextStyle(fontSize: 14),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        body: Obx(() {
-          if (controller.bookmarks.isEmpty) {
-            return const Center(child: Text('저장된 즐겨찾기가 없습니다.'));
-          }
-
-          return ListView.builder(
-            padding: const EdgeInsets.all(16),
-            itemCount: controller.bookmarks.length,
-            itemBuilder: (context, index) {
-              final repository = controller.bookmarks[index];
-              return RepositoryListItem(
-                repository: repository,
-                trailingActions: [
-                  IconButton(
-                    icon: const Icon(Icons.bookmark, color: Colors.blueAccent),
-                    onPressed: () => controller.unbookmark(repository),
-                  ),
-                ],
-              );
-            },
-          );
-        }),
+        appBar: _buildAppBar(),
+        body: _buildBookmarkList(),
       ),
     );
+  }
+
+  PreferredSizeWidget _buildAppBar() {
+    return AppBar(
+      title: const Text('북마크'),
+      automaticallyImplyLeading: false,
+      backgroundColor: Colors.white,
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 16),
+          child: Center(
+            child: Obx(() {
+              return Text(
+                '총 ${controller.bookmarks.length}개',
+                style: const TextStyle(fontSize: 14),
+              );
+            }),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildBookmarkList() {
+    return Obx(() {
+      if (controller.bookmarks.isEmpty) {
+        return const Center(child: Text('저장된 즐겨찾기가 없습니다.'));
+      }
+
+      return ListView.builder(
+        padding: const EdgeInsets.all(16),
+        itemCount: controller.bookmarks.length,
+        itemBuilder: (context, index) {
+          final repository = controller.bookmarks[index];
+          return RepositoryListItem(
+            repository: repository,
+            trailingActions: [
+              IconButton(
+                icon: const Icon(Icons.bookmark, color: Colors.blueAccent),
+                onPressed: () => controller.unbookmark(repository),
+              ),
+            ],
+          );
+        },
+      );
+    });
   }
 }
