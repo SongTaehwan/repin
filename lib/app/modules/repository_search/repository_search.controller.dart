@@ -88,8 +88,6 @@ class RepositorySearchController extends GetxController {
     _lastLoadNextAt = null; // 새로운 검색 시작 시 스로틀 상태 초기화
 
     if (query.trim().isEmpty) {
-      // repositories.clear();
-      // hasSearched.value = false;
       return;
     }
 
@@ -195,5 +193,36 @@ class RepositorySearchController extends GetxController {
   /// 검색 실행 (검색바에서 엔터 누를 때)
   void onSearchSubmitted(String query) {
     _searchRepositories(query);
+  }
+
+  /// 당겨서 새로고침 처리
+  /// - 현재 검색어 기준으로 첫 페이지를 다시 로드한다.
+  Future<void> refreshPage() async {
+    final query = searchText.value.trim();
+
+    if (query.isEmpty) {
+      return;
+    }
+
+    // 추가 로딩 상태 초기화
+    isLoadingMore.value = false;
+    _lastLoadNextAt = null;
+
+    final result = await _service.loadFirst(query);
+
+    result.fold(
+      (failure) {
+        Get.snackbar(
+          '새로고침 실패',
+          failure.toString(),
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      },
+      (repositoriesList) {
+        final (items, _) = repositoriesList;
+        repositories.value = items;
+        hasMore.value = _service.hasMore;
+      },
+    );
   }
 }

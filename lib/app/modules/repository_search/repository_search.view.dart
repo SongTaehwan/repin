@@ -126,35 +126,39 @@ class RepositorySearchView extends GetView<RepositorySearchController> {
       }
 
       // 검색 결과 리스트
-      return NotificationListener<ScrollNotification>(
-        onNotification: (notification) {
-          controller.onScrollPosition(
-            pixels: notification.metrics.pixels,
-            maxScrollExtent: notification.metrics.maxScrollExtent,
-          );
-          return false;
-        },
-        child: ListView.builder(
-          padding: const EdgeInsets.all(16),
-          itemCount: controller.repositories.length + 1,
-          itemBuilder: (context, index) {
-            // 하단 로딩 인디케이터 또는 빈 공간
-            if (index == controller.repositories.length) {
-              return Obx(() {
-                if (!controller.isLoadingMore.value) {
-                  return const SizedBox(height: 16);
-                }
-
-                return const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                  child: Center(child: CircularProgressIndicator()),
-                );
-              });
-            }
-
-            final repository = controller.repositories[index];
-            return _buildRepositoryItem(repository);
+      return RefreshIndicator(
+        onRefresh: controller.refreshPage,
+        child: NotificationListener<ScrollNotification>(
+          onNotification: (notification) {
+            controller.onScrollPosition(
+              pixels: notification.metrics.pixels,
+              maxScrollExtent: notification.metrics.maxScrollExtent,
+            );
+            return false;
           },
+          child: ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: const EdgeInsets.all(16),
+            itemCount: controller.repositories.length + 1,
+            itemBuilder: (context, index) {
+              // 하단 로딩 인디케이터 또는 빈 공간
+              if (index == controller.repositories.length) {
+                return Obx(() {
+                  if (!controller.isLoadingMore.value) {
+                    return const SizedBox(height: 16);
+                  }
+
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: Center(child: CircularProgressIndicator()),
+                  );
+                });
+              }
+
+              final repository = controller.repositories[index];
+              return _buildRepositoryItem(repository);
+            },
+          ),
         ),
       );
     });
