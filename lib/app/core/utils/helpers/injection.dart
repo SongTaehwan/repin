@@ -39,7 +39,13 @@ Future<void> registerSingletons() async {
   getIt.registerSingletonAsync<IApiClient>(() => ApiClient.create());
   final api = await getIt.getAsync<IApiClient>();
 
+  // Github Provider 등록 (Retrofit 구현체)
   getIt.registerLazySingleton<GithubProviderInterface>(
     () => GithubProvider(api.client),
   );
+
+  // 페이지 사이즈 상수 등록 (injection.config.dart 에서 pageSize 로 사용됨)
+  if (!getIt.isRegistered<int>()) {
+    getIt.registerLazySingleton<int>(() => 10);
+  }
 }
