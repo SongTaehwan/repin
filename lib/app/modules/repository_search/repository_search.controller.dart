@@ -14,7 +14,7 @@ import 'package:repin/app/data/services/repository_search.service.interface.dart
 /// 저장소 검색 화면 컨트롤러
 class RepositorySearchController extends GetxController {
   /// 의존성
-  final RepositoryServiceInterface _repositoryService;
+  final RepositorySearchServiceInterface _repositoryService;
   final RepositoryBookmarkServiceInterface _bookmarkService;
 
   /// 인스턴스

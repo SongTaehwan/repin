@@ -11,8 +11,8 @@ import 'package:repin/app/data/services/repository_search.service.interface.dart
 // 복잡한 비즈니스 로직
 // 여러 Repository 호출
 // 데이터 검증 및 가공
-@LazySingleton(as: RepositoryServiceInterface)
-class RepositorySearchService implements RepositoryServiceInterface {
+@LazySingleton(as: RepositorySearchServiceInterface)
+class RepositorySearchService implements RepositorySearchServiceInterface {
   final CodeRepoRepositoryInterface _repository;
 
   RepositorySearchService(this._repository);

@@ -36,7 +36,7 @@ class RepositorySearchBinding extends Bindings {
     // Controller
     Get.lazyPut<RepositorySearchController>(
       () => RepositorySearchController(
-        Get.find<RepositoryServiceInterface>(),
+        Get.find<RepositorySearchServiceInterface>(),
         Get.find<RepositoryBookmarkServiceInterface>(),
       ),
     );
