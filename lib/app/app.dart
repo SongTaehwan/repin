@@ -23,7 +23,6 @@ class _AppState extends State<App> {
       debugShowCheckedModeBanner: false,
       enableLog: true,
       smartManagement: SmartManagement.full,
-      title: "Application",
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
       navigatorObservers: kDebugMode ? [RouteStackObserver.root()] : const [],
