@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:repin/app/modules/repository_bookmark/repository_bookmark.controller.dart';
 import 'package:repin/app/shared/widgets/repository_list_item.dart';
 
+/// 북마크 화면
 class RepositoryBookmarkView extends GetView<RepositoryBookmarkController> {
   const RepositoryBookmarkView({super.key});
 

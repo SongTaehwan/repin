@@ -18,12 +18,11 @@ class RepositorySearchBinding extends Bindings {
   @override
   void dependencies() {
     // Provider
-    final dio = getIt<IApiClient>().client;
-    Get.lazyPut<GithubProviderInterface>(() => GithubProvider(dio));
+    final provider = getIt<GithubProviderInterface>();
 
     // Repository
     Get.lazyPut<CodeRepoRepositoryInterface>(
-      () => CodeRepoRepository(Get.find<GithubProviderInterface>()),
+      () => CodeRepoRepository(provider),
     );
 
     // Service

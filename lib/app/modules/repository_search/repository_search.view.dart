@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:repin/app/modules/repository_search/repository_search.controller.dart';
 import 'package:repin/app/shared/widgets/repository_list_item.dart';
 
+/// 저장소 검색 화면
 class RepositorySearchView extends GetView<RepositorySearchController> {
   const RepositorySearchView({super.key});
 

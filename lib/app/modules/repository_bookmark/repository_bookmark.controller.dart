@@ -6,6 +6,7 @@ import 'package:repin/app/core/utils/helpers/widget_sync.dart';
 import 'package:repin/app/data/model/repository.model.dart';
 import 'package:repin/app/data/services/repository_bookmark.service.interface.dart';
 
+/// 북마크 화면 컨트롤러
 class RepositoryBookmarkController extends GetxController {
   /// 의존성
   final RepositoryBookmarkServiceInterface _bookmarkService;
