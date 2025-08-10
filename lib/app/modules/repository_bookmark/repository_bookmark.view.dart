@@ -6,17 +6,57 @@ import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import 'package:repin/app/modules/repository_bookmark/repository_bookmark.controller.dart';
+import 'package:repin/app/modules/repository_bookmark/widgets/repository_list_item.dart';
 
 class RepositoryBookmarkView extends GetView<RepositoryBookmarkController> {
   const RepositoryBookmarkView({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: const Center(
-        child: Text(
-          'RepositoryBookmarkView is working',
-          style: TextStyle(fontSize: 20),
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: const Text('북마크'),
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.white,
+          actions: [
+            Obx(
+              () => Padding(
+                padding: const EdgeInsets.only(right: 16),
+                child: Center(
+                  child: Text(
+                    '총 ${controller.bookmarks.length}개',
+                    style: const TextStyle(fontSize: 14),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
+        body: Obx(() {
+          if (controller.bookmarks.isEmpty) {
+            return const Center(child: Text('저장된 즐겨찾기가 없습니다.'));
+          }
+
+          return ListView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: controller.bookmarks.length,
+            itemBuilder: (context, index) {
+              final repository = controller.bookmarks[index];
+              return RepositoryListItem(
+                repository: repository,
+                trailingActions: [
+                  IconButton(
+                    icon: const Icon(Icons.bookmark, color: Colors.blueAccent),
+                    onPressed: () => controller.unbookmark(repository),
+                  ),
+                ],
+              );
+            },
+          );
+        }),
       ),
     );
   }
