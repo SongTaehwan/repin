@@ -29,6 +29,14 @@ class RepositorySearchController extends GetxController {
     _searchController.addListener(() {
       searchText.value = _searchController.text;
     });
+
+    // 검색어 변경 시 300ms 디바운스를 적용하여 불필요한 API 호출을 방지
+    // NOTE: GetX의 debounce는 컨트롤러 dispose 시 자동 정리됨
+    debounce<String>(
+      searchText,
+      (text) => searchRepositories(text),
+      time: const Duration(milliseconds: 300),
+    );
   }
 
   @override
