@@ -18,12 +18,16 @@ final GetIt getIt = GetIt.instance;
 /// 의존성 주입을 위한 초기화
 @InjectableInit(preferRelativeImports: false)
 Future<void> configureDependencies() async {
+  if (kDebugMode) {
+    await getIt.reset();
+  }
+
   try {
     // Hive 초기화
     await Hive.initFlutter();
 
-    // GetIt 초기화
-    getIt.init();
+    // GetIt 및 모듈 초기화 (preResolve 반영)
+    await getIt.init();
 
     await registerSingletons();
 
