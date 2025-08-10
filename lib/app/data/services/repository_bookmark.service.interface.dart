@@ -18,4 +18,7 @@ abstract class RepositoryBookmarkServiceInterface {
 
   /// 모든 북마크 ID 조회
   Future<Set<int>> getAllBookmarkedIds();
+
+  /// 모든 북마크 레포지토리 조회
+  Future<List<Repository>> getAllBookmarks();
 }

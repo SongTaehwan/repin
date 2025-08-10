@@ -51,4 +51,23 @@ class RepositoryBookmarkService implements RepositoryBookmarkServiceInterface {
     final box = await _openBox();
     return box.keys.whereType<int>().toSet();
   }
+
+  @override
+  Future<List<Repository>> getAllBookmarks() async {
+    final box = await _openBox();
+    final List<Repository> items = [];
+    for (final key in box.keys) {
+      final value = box.get(key);
+      if (value is Map) {
+        try {
+          items.add(Repository.fromJson(Map<String, dynamic>.from(value)));
+        } catch (_) {
+          // skip invalid entry
+        }
+      }
+    }
+    // 최신 북마크가 위로 오도록 업데이트 날짜 기준 정렬
+    items.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+    return items;
+  }
 }
