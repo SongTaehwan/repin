@@ -17,10 +17,11 @@ class RepositorySearchService implements RepositoryServiceInterface {
 
   RepositorySearchService(this._repository);
 
-  bool get hasMore => _repository.hasMore;
+  @override
+  bool get hasMore => _repository.nextPage != null;
 
   @override
-  Future<Either<Failure, Future<(List<Repository>, int)>>> loadFirst(
+  Future<Either<Failure, (List<Repository>, int)>> loadFirst(
     String query,
   ) async {
     _repository.reset();
@@ -28,7 +29,7 @@ class RepositorySearchService implements RepositoryServiceInterface {
   }
 
   @override
-  Future<Either<Failure, Future<(List<Repository>, int)>>> loadNext(
+  Future<Either<Failure, (List<Repository>, int)>> loadNext(
     String query,
   ) async {
     return await _repository.fetchNextPage(query);

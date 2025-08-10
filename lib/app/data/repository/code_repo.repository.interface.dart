@@ -6,17 +6,11 @@ import 'package:repin/app/core/errors/failure.dart';
 import 'package:repin/app/data/model/repository.model.dart';
 
 abstract class CodeRepoRepositoryInterface {
-  bool get hasMore;
+  int? get nextPage;
 
   void reset();
 
-  Future<Either<Failure, Future<(List<Repository>, int)>>> fetchFirstPage(
-    String query,
-  );
+  Future<Either<Failure, (List<Repository>, int)>> fetchFirstPage(String query);
 
-  Future<Either<Failure, Future<(List<Repository>, int)>>> fetchNextPage(
-    String query, {
-    int page = 1,
-    int limit = 10,
-  });
+  Future<Either<Failure, (List<Repository>, int)>> fetchNextPage(String query);
 }
