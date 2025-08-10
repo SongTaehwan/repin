@@ -70,4 +70,11 @@ class RepositoryBookmarkService implements RepositoryBookmarkServiceInterface {
     items.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
     return items;
   }
+
+  @override
+  Future<Repository?> getLastAddedBookmark() async {
+    final items = await getAllBookmarks();
+    if (items.isEmpty) return null;
+    return items.first;
+  }
 }

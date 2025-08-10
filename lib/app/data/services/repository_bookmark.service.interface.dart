@@ -21,4 +21,7 @@ abstract class RepositoryBookmarkServiceInterface {
 
   /// 모든 북마크 레포지토리 조회
   Future<List<Repository>> getAllBookmarks();
+
+  /// 가장 마지막에 추가된 북마크 1건 조회 (없으면 null)
+  Future<Repository?> getLastAddedBookmark();
 }

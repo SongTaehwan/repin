@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 // 🌎 Project imports:
 import 'package:repin/app/core/constant/strings.dart';
+import 'package:repin/app/core/utils/helpers/widget_sync.dart';
 import 'package:repin/app/data/model/repository.model.dart';
 import 'package:repin/app/data/services/repository_bookmark.service.interface.dart';
 import 'package:repin/app/data/services/repository_search.service.interface.dart';
@@ -104,6 +105,9 @@ class RepositorySearchController extends GetxController {
           snackPosition: SnackPosition.BOTTOM,
         ),
       );
+      // 위젯 동기화
+      final last = await _bookmarkService.getLastAddedBookmark();
+      await WidgetSync.syncLastBookmark(last);
     } else {
       final result = await _bookmarkService.addBookmark(repository);
       result.fold(
@@ -118,6 +122,8 @@ class RepositorySearchController extends GetxController {
           snackPosition: SnackPosition.BOTTOM,
         ),
       );
+      // 위젯 동기화
+      await WidgetSync.syncLastBookmark(repository);
     }
     update();
   }
