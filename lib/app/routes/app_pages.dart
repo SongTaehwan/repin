@@ -1,3 +1,6 @@
+// 🐦 Flutter imports:
+import 'package:flutter/widgets.dart';
+
 // 📦 Package imports:
 import 'package:get/get.dart';
 
@@ -24,12 +27,14 @@ class AppPages {
       children: [
         GetPage(
           name: Routes.REPOSITORY_SEARCH,
-          page: () => const RepositorySearchView(),
+          page: () =>
+              const PopScope(canPop: false, child: RepositorySearchView()),
           binding: RepositorySearchBinding(),
         ),
         GetPage(
           name: Routes.REPOSITORY_BOOKMARK,
-          page: () => const RepositoryBookmarkView(),
+          page: () =>
+              const PopScope(canPop: false, child: RepositoryBookmarkView()),
           binding: RepositoryBookmarkBinding(),
         ),
       ],

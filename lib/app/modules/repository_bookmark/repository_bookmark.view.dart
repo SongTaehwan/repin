@@ -14,13 +14,10 @@ class RepositoryBookmarkView extends GetView<RepositoryBookmarkController> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: _buildAppBar(),
-        body: _buildBookmarkList(),
-      ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: _buildAppBar(),
+      body: _buildBookmarkList(),
     );
   }
 
