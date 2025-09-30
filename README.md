@@ -73,7 +73,7 @@ main.dart                 # 엔트리 포인트
 - flutter: 3.32.8 버전
 - ruby: 3.4.3 버전
 - Xcode: 16.4.0 버전
-- Cursor AI - 사용 프롬프트는 .cursorrules 참고 바랍니다.
+
 ### 사용 라이브러리
 ---
 - **get**: 화면 상태 관리 및 라우팅/DI 스코프
@@ -106,7 +106,7 @@ make build_runner
 4. DI 위치(bootstrap vs. binding)
     - 인프라/싱글턴은 `bootstrap`에서 선초기화, 화면 스코프는 각 `binding`에서 지연 주입.
 5. 페이징 전략
-    - 서버 응답 Link 헤더 존중, `hasMore`를 Service/Repository에서 계산하여 View 분기 최소화.
+    - 서버 응답 Link 헤더, `hasMore`를 Service/Repository에서 계산하여 View 분기 최소화.
 
 ## 개선해야할 점
 - 네트워크 에러 케이스에 따라 Failure 타입 세분화 및 사용자 친화적 UI 안내
@@ -121,8 +121,6 @@ make build_runner
 - View Tree 리펙토링
 
 ## 프로젝트 후기
-- 설계와 객체 역할을 명확히 정의한 상태에서 AI 툴을 활용하니 반복 작업 자동화와 맥락 유지가 쉬워져 전반적인 개발 생산성이 크게 향상됨
-   - 기능 개발 속도 향상: 약 40~50% (초기 화면 레이아웃, 상태/DI 구성, 리팩토링 제안 반영 등)
 - 작은 범위에서도 레이어 분리의 이점을 체감: 테스트 용이성, 교체 가능성(예: Provider 교체) 확보
 - 컨트롤러에 화면 의사결정을 몰고(View는 단순 구독) 성능/가독성 모두 개선
 - dio 재시도/캐시의 체감 성능 향상 효과가 큼(특히 입력 디바운스와 결합 시)
