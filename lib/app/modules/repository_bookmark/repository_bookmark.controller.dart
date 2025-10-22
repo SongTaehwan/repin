@@ -40,14 +40,16 @@ class RepositoryBookmarkController extends GetxController {
       (failure) => Get.snackbar(
         '해제 실패',
         failure.toString(),
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
+        duration: const Duration(seconds: 1),
       ),
       (_) {
         bookmarks.removeWhere((e) => e.id == repository.id);
         Get.snackbar(
           '해제 완료',
           '북마크에서 제거되었습니다.',
-          snackPosition: SnackPosition.BOTTOM,
+          snackPosition: SnackPosition.TOP,
+          duration: const Duration(seconds: 1),
         );
         // 변경된 목록 기준으로 위젯 동기화
         final lastBookmark = bookmarks.isEmpty ? null : bookmarks.first;

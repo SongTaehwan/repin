@@ -98,12 +98,14 @@ class RepositorySearchController extends GetxController {
         (failure) => Get.snackbar(
           '북마크 해제 실패',
           failure.toString(),
-          snackPosition: SnackPosition.BOTTOM,
+          snackPosition: SnackPosition.TOP,
+          duration: const Duration(seconds: 1),
         ),
         (_) => Get.snackbar(
           '북마크 해제',
           '해당 저장소가 북마크에서 제거되었습니다.',
-          snackPosition: SnackPosition.BOTTOM,
+          snackPosition: SnackPosition.TOP,
+          duration: const Duration(seconds: 1),
         ),
       );
       // 위젯 동기화
@@ -115,12 +117,14 @@ class RepositorySearchController extends GetxController {
         (failure) => Get.snackbar(
           '북마크 실패',
           failure.toString(),
-          snackPosition: SnackPosition.BOTTOM,
+          snackPosition: SnackPosition.TOP,
+          duration: const Duration(seconds: 1),
         ),
         (_) => Get.snackbar(
           '북마크 완료',
           '해당 저장소가 북마크에 추가되었습니다.',
-          snackPosition: SnackPosition.BOTTOM,
+          snackPosition: SnackPosition.TOP,
+          duration: const Duration(seconds: 1),
         ),
       );
       // 위젯 동기화
@@ -150,7 +154,8 @@ class RepositorySearchController extends GetxController {
         Get.snackbar(
           '검색 실패',
           failure.toString(),
-          snackPosition: SnackPosition.BOTTOM,
+          snackPosition: SnackPosition.TOP,
+          duration: const Duration(seconds: 1),
         );
         repositories.clear();
       },
@@ -163,7 +168,8 @@ class RepositorySearchController extends GetxController {
           Get.snackbar(
             '검색 결과',
             '검색 결과가 없습니다.',
-            snackPosition: SnackPosition.BOTTOM,
+            snackPosition: SnackPosition.TOP,
+            duration: const Duration(seconds: 1),
           );
         }
       },
@@ -195,7 +201,8 @@ class RepositorySearchController extends GetxController {
         Get.snackbar(
           '불러오기 실패',
           failure.toString(),
-          snackPosition: SnackPosition.BOTTOM,
+          snackPosition: SnackPosition.TOP,
+          duration: const Duration(seconds: 1),
         );
       },
       (repositoriesList) {
@@ -264,7 +271,8 @@ class RepositorySearchController extends GetxController {
         Get.snackbar(
           '새로고침 실패',
           failure.toString(),
-          snackPosition: SnackPosition.BOTTOM,
+          snackPosition: SnackPosition.TOP,
+          duration: const Duration(seconds: 1),
         );
       },
       (repositoriesList) {
