@@ -127,3 +127,5 @@ release.keystore
 *.config.dart
 /lib/app/generated/intl/*
 /lib/app/generated/rest/*
+
+.cursorrules
