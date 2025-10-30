@@ -2,6 +2,11 @@
 
 Flutter + GetX로 구현한 GitHub Repository 검색 및 북마크 관리 앱
 
+## 데모
+<p align="center">
+  <img src="./repin-demo.gif">
+</p>
+
 ## 주요 기능
 
 - **검색**: 디바운스(300ms) + 무한 스크롤, Link 헤더 기반 페이징
